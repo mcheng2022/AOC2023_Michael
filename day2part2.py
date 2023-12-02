@@ -23,28 +23,20 @@ with open('day2part1.txt') as f:
         print(game)
         games.append([ID,game])
 
-B = 14
-G = 13
-R = 12
 answer = 0
 for game in games:
-    possible = True
-    ID = game[0]
+    B = 0
+    G = 0
+    R = 0
     for round in game[1]:
         if round[0] > B:
-            possible = False
-            break
+            B = round[0]
         if round[1] > G:
-            possible = False
-            break
+            G = round[1]
         if round[2] > R:
-            possible = False
-            break
-    if possible:
-        answer += ID
-        print('possible => ', game[1])
-    else:
-        print('impossible => ', game[1])
+            R = round[2]
+    print(game[1],' ==> ',[B,G,R])
+    answer += B*G*R
 
 print('answer = ', answer)
 
