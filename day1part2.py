@@ -13,7 +13,7 @@ NUMBERS = [
 ]
 
 calib = 0
-with open('day1part2.txt') as f:
+with open('day1part1.txt') as f:
     for line in f:
         str = line[:-1]
         for i in range(0,len(line)):
