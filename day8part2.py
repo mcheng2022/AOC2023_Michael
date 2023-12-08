@@ -1,41 +1,29 @@
-with open('day8_example3.txt') as f:
+from itertools import cycle
+import math
+
+with open('day8.txt') as f:
     lines = f.readlines()
 
 cmd = lines[0].strip()
 print(repr(cmd))
-N = []
-L = []
-R = []
+maps = {}
+
 for line in lines[2:]:
-    N.append(line[:3])
-    L.append(line[7:10])
-    R.append(line[12:15])
-    print(N[-1], L[-1], R[-1])
-L = [N.index(i) for i in L]
-R = [N.index(i) for i in R]
-N2 = [s[2] == 'Z' for s in N]
+    maps[line[:3]] = {"L":line[7:10], "R":line[12:15]}
+    print(line[:3], line[7:10], line[12:15])
 print('======================================')
-locations = [i for i, s in enumerate(N) if s[2] == 'A']
-print([N[i] for i in locations])
 
-steps = 0
-loops = 0
-while (True):
-    # loops += 1
-    # if loops % 10000000 == 0:
-    #     print(f'Loops = {loops}')
-    # if loops > 10:
-    #     raise Exception('Too many loops')
-    for c in cmd:
-        # print('locations: ', [N[i] for i in locations], ', c = ', c)
-        steps += 1
-        if c == 'L':
-            locations = [L[i] for i in locations]
-        else:
-            locations = [R[i] for i in locations]
-    if all(N2[i] for i in locations):
-        # print('locations: ', [N[i] for i in locations], ', c = ', c)
-        break
+locations = [k for k in maps.keys() if k[-1] == 'A']
+steps = []
+for location in locations:
+    for step, c in enumerate(cycle(cmd), 1):
+        location = maps[location][c]
+        if location[-1] == 'Z':
+            steps.append(step)
+            break
 
-print('steps = ', steps)
+answer = math.lcm(*steps)
+print('answer = ', answer)
+
+
 
